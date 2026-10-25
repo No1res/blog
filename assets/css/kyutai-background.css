@@ -2,6 +2,7 @@
    Official release: https://daichi-miura.jp/discography/detail/28/ */
 body {
   --kyutai-paper: rgba(255, 255, 253, .94);
+  --kyutai-reading-paper: rgba(255, 255, 253, .76);
   --kyutai-edge: rgba(98, 124, 112, .14);
   position: relative;
   isolation: isolate;
@@ -30,14 +31,19 @@ body > .footer {
   max-width: calc(var(--main-width) + 72px);
   margin: 28px auto;
   padding: 36px;
-  background: var(--kyutai-paper);
+  background: var(--kyutai-reading-paper);
   border: 1px solid var(--kyutai-edge);
   border-radius: 6px;
   box-shadow: 0 8px 32px rgba(47, 63, 55, .035);
 }
 
+:root:not([data-theme="dark"]) .main {
+  --secondary: #646464;
+}
+
 [data-theme="dark"] body {
   --kyutai-paper: rgba(29, 30, 32, .95);
+  --kyutai-reading-paper: var(--kyutai-paper);
   --kyutai-edge: rgba(150, 175, 161, .15);
   background: #1b2420;
 }
