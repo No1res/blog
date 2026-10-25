@@ -1,20 +1,38 @@
 {{- if eq .AlertType "lyrics" -}}
   {{- $paragraphs := findRE `(?s)<p>.*?</p>` .Text -}}
-  {{- if ne (len $paragraphs) 4 -}}
-    {{- errorf "歌词对照需要依次包含：原文标签、原文段落、中文意译标签、中文段落。段落内换行请保留两个行末空格。位置：%s" .Position -}}
+  {{- $translationIndex := -1 -}}
+  {{- range $i, $paragraph := $paragraphs -}}
+    {{- if eq (trim ($paragraph | plainify) " \n\r\t") "中文意译" -}}
+      {{- $translationIndex = $i -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $originalCount := sub $translationIndex 1 -}}
+  {{- $translationCount := sub (len $paragraphs) (add $translationIndex 1) -}}
+  {{- if or (lt $originalCount 1) (ne $originalCount $translationCount) -}}
+    {{- errorf "歌词对照需要原文、中文意译两个标签，两边用空行分成数量相同的对应段落；同一组内换行请保留两个行末空格。位置：%s" .Position -}}
+  {{- else if ne (trim (index $paragraphs 0 | plainify) " \n\r\t") "原文" -}}
+    {{- errorf "歌词对照的第一个段落应为原文标签。位置：%s" .Position -}}
   {{- else -}}
+    {{- $originals := first $originalCount (after 1 $paragraphs) -}}
+    {{- $translations := after (add $translationIndex 1) $paragraphs -}}
     <figure class="lyric-quote" aria-label="{{ .AlertTitle | plainify }}">
       <figcaption class="lyric-quote-title">{{ .AlertTitle }}</figcaption>
-      <div class="lyric-columns">
-        <div class="lyric-original" lang="ja">
-          <p class="lyric-label" lang="zh-Hans">日文原文</p>
-          {{- /* These fragments have already been rendered and escaped by Goldmark. */ -}}
-          {{ index $paragraphs 1 | safeHTML }}
+      <div class="lyric-headings" lang="zh-Hans">
+        <span class="lyric-label">日文原文</span>
+        <span class="lyric-label lyric-heading-translation">中文意译</span>
+      </div>
+      <div class="lyric-pairs">
+        {{- range $i, $original := $originals -}}
+        <div class="lyric-row">
+          <div class="lyric-original" lang="ja">
+            {{- /* These fragments have already been rendered and escaped by Goldmark. */ -}}
+            {{ $original | safeHTML }}
+          </div>
+          <div class="lyric-translation" lang="zh-Hans">
+            {{ index $translations $i | safeHTML }}
+          </div>
         </div>
-        <div class="lyric-translation" lang="zh-Hans">
-          <p class="lyric-label">中文意译</p>
-          {{ index $paragraphs 3 | safeHTML }}
-        </div>
+        {{- end -}}
       </div>
     </figure>
   {{- end -}}

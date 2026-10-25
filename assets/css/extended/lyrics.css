@@ -13,10 +13,18 @@
   line-height: 1.7;
   letter-spacing: .03em;
 }
-.lyric-columns {
+.lyric-headings,
+.lyric-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 24px;
+  column-gap: 24px;
+}
+.lyric-headings { margin-bottom: 12px; }
+.lyric-heading-translation { padding-left: 24px; }
+.lyric-row + .lyric-row {
+  border-top: 1px solid var(--paper-edge, rgba(94, 121, 109, .18));
+  margin-top: 12px;
+  padding-top: 12px;
 }
 .lyric-original,
 .lyric-translation {
@@ -30,19 +38,19 @@
   color: var(--primary);
 }
 .lyric-translation {
-  border-left: 1px solid rgba(94, 121, 109, .18);
+  border-left: 1px solid var(--paper-edge, rgba(94, 121, 109, .18));
   padding-left: 24px;
   font-family: "Songti SC", "Noto Serif CJK SC", SimSun, serif;
   color: var(--content);
 }
 .post-content .lyric-label {
-  margin: 0 0 8px;
+  margin: 0;
   color: var(--secondary);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
   font-size: 11px;
   letter-spacing: .07em;
 }
-.lyric-columns p:last-child { margin-bottom: 0; }
+.post-content .lyric-row p { margin: 0; }
 [data-theme="dark"] .post-content .lyric-quote {
   background: rgba(37, 45, 40, .95);
   border-color: #4c6053;
@@ -50,11 +58,9 @@
 [data-theme="dark"] .post-content .lyric-quote-title { color: #b2c7b9; }
 @media (max-width: 600px) {
   .post-content .lyric-quote { padding: 16px 18px; }
-  .lyric-columns { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .lyric-translation {
-    padding-left: 0;
-    padding-top: 14px;
-    border-left: 0;
-    border-top: 1px solid rgba(94, 121, 109, .18);
-  }
+  .lyric-headings { display: flex; gap: .7em; flex-wrap: wrap; }
+  .lyric-heading-translation { padding-left: 0; }
+  .lyric-heading-translation::before { content: "·"; margin-right: .7em; }
+  .lyric-row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+  .lyric-translation { padding-left: 0; border-left: 0; }
 }
