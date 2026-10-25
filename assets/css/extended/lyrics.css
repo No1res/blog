@@ -22,9 +22,7 @@
 .lyric-headings { margin-bottom: 12px; }
 .lyric-heading-translation { padding-left: 24px; }
 .lyric-row + .lyric-row {
-  border-top: 1px solid var(--paper-edge, rgba(94, 121, 109, .18));
-  margin-top: 12px;
-  padding-top: 12px;
+  margin-top: 16px;
 }
 .lyric-original,
 .lyric-translation {
