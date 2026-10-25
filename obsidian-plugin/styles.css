@@ -1,0 +1,11 @@
+.hugo-publisher { width: min(760px, 92vw); }
+.hugo-publisher .hugo-lead { font-size: 1.05em; color: var(--text-normal); margin-top: 0; }
+.hugo-muted { color: var(--text-muted); line-height: 1.7; }
+.hugo-notes { max-height: 260px; overflow: auto; border: 1px solid var(--background-modifier-border); border-radius: 8px; padding: 0 14px; }
+.hugo-empty { padding: 12px 0; text-align: center; }
+.hugo-notes .setting-item-description { word-break: break-all; }
+.hugo-preview-summary { padding: 14px 18px; background: var(--background-secondary); border-radius: 8px; line-height: 1.8; }
+.hugo-preview-summary a { display: block; margin-top: 5px; }
+.hugo-result { padding: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.hugo-warning { color: var(--text-warning); font-size: .9em; }
+.hugo-publisher .setting-item-control { flex-wrap: wrap; }

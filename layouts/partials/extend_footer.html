@@ -1,0 +1,16 @@
+{{ if and .IsPage (eq .Section "posts") }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const footer = document.querySelector('.post-footer');
+  if (!footer) return;
+  const p = document.createElement('p');
+  p.className = 'conversation';
+  p.append('你有相似的经历，或不同的看法吗？欢迎到 ');
+  const a = document.createElement('a');
+  a.href = '{{ site.Params.discussionURL }}';
+  a.textContent = '交流区';
+  p.append(a, ' 分享，也可以在你看到这篇文章的地方直接回复我。');
+  footer.append(p);
+});
+</script>
+{{ end }}

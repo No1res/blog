@@ -1,0 +1,3 @@
+PaperMod upstream: https://github.com/adityatelange/hugo-PaperMod
+Commit: 26523e0fd837f965d08e320c9dde83700ad15649
+Hugo: 0.168.0

@@ -1,0 +1,13 @@
+:root { --main-width: 740px; --nav-width: 1040px; --radius: 10px; }
+body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+.home-info { min-height: 230px; }
+.home-info .entry-header h1 { font-size: 32px; letter-spacing: -.03em; }
+.home-info .entry-content { font-size: 17px; line-height: 1.95; max-width: 560px; }
+.post-content { line-height: 1.95; font-size: 17px; }
+.post-content p { margin-bottom: 1.35em; }
+.post-title { line-height: 1.4; letter-spacing: -.025em; }
+.post-entry { padding: 25px 28px; }
+.post-entry .entry-content { line-height: 1.85; }
+.post-footer .conversation { border-top: 1px solid var(--border); padding-top: 20px; line-height: 1.8; }
+.conversation a { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 600px) { .post-content { font-size: 16px; } .post-entry { padding: 20px; } }

@@ -1,0 +1,65 @@
+baseURL: https://no1res.github.io/blog/
+locale: zh-CN
+defaultContentLanguage: zh
+title: No1res · 随记
+theme: PaperMod
+timeZone: Asia/Shanghai
+hasCJKLanguage: true
+enableRobotsTXT: true
+pagination:
+  pagerSize: 8
+permalinks:
+  posts: /posts/:slug/
+outputs:
+  home: [HTML, RSS, JSON]
+params:
+  env: production
+  author: No1res
+  description: 研究、阅读与生活中的观察和思考。
+  mainSections: [posts]
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  TocOpen: false
+  DateFormat: 2006年1月2日
+  disableSpecial1stPost: true
+  hideSummary: false
+  homeInfoParams:
+    Title: 你好，我是 No1res。
+    Content: 这里记录研究、阅读与生活中的观察和思考。把一些想法写下来，也期待与你交流。
+  socialIcons:
+    - name: github
+      url: https://github.com/No1res
+    - name: rss
+      url: https://no1res.github.io/blog/index.xml
+  discussionURL: https://github.com/No1res/blog/discussions
+  assets:
+    disableHLJS: true
+menu:
+  main:
+    - name: 文章
+      url: /posts/
+      weight: 10
+    - name: 归档
+      url: /archives/
+      weight: 20
+    - name: 标签
+      url: /tags/
+      weight: 30
+    - name: 搜索
+      url: /search/
+      weight: 40
+    - name: 关于
+      url: /about/
+      weight: 50
+markup:
+  goldmark:
+    renderer:
+      unsafe: false
+  highlight:
+    noClasses: false
+caches:
+  images:
+    dir: :cacheDir/images

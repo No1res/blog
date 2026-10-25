@@ -1,0 +1,10 @@
+/public/
+/resources/
+/.hugo_build.lock
+/.local.json
+/.publisher/
+/.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.obsidian/
