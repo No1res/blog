@@ -402,6 +402,8 @@ class Exporter:
             meta = dict(title=post['title'], date=str(date), slug=post['slug'], tags=tags,
                         description=str(raw.get('description') or raw.get('summary') or ''),
                         draft=False, lastmod=dt.datetime.now(ZoneInfo('Asia/Shanghai')).isoformat(timespec='seconds'))
+            if raw.get('summary') or meta['description']:
+                meta['summary'] = str(raw.get('summary') or meta['description'])
             serialized = yaml.safe_dump(meta, allow_unicode=True, sort_keys=False)
             if SECRET.search(serialized):
                 raise PublishError('文章属性中发现疑似访问密钥。')
