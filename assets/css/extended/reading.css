@@ -5,6 +5,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft
 .home-info .entry-content { font-size: 17px; line-height: 1.95; max-width: 560px; }
 .post-content { line-height: 1.95; font-size: 17px; }
 .post-content p { margin-bottom: 1.35em; }
+.post-content p:has(> img:only-child) { margin: 2rem 0 .7rem; }
+.post-content p > img:only-child { margin: 0 auto; }
+.post-content p:has(> img:only-child) + p:has(> em:only-child) {
+  color: var(--secondary); font-size: 13px; line-height: 1.7; margin-bottom: 2rem;
+}
+.post-content p:has(> img:only-child) + p > em:only-child { font-style: normal; }
 .post-title { line-height: 1.4; letter-spacing: -.025em; }
 .post-entry { padding: 25px 28px; }
 .post-entry .entry-content { line-height: 1.85; }
