@@ -160,6 +160,8 @@ class Exporter:
                 raise PublishError('请选择 Markdown 笔记。')
             text = p.read_text(encoding='utf-8')
             meta, body = frontmatter(text)
+            if 'draft' in meta and not isinstance(meta['draft'], bool):
+                raise PublishError('draft 必须是 true 或 false，请不要给它加引号。')
             self.hashes[rel] = digest(p)
             old = self.previous.get(rel, {})
             slug = str(meta.get('slug') or old.get('slug') or 'note-' + hashlib.sha256(rel.encode()).hexdigest()[:12])
@@ -224,7 +226,8 @@ class Exporter:
                 raise PublishError('文章链接到了尚未公开的笔记。请一并选择该笔记，或把链接改成普通文字。')
             if anchor.startswith('^'):
                 raise PublishError('块引用链接无法直接用于网页，请改为标题链接。')
-            suffix = '#' + quote(unquote(anchor).lower().replace(' ', '-'), safe='-') if sep else ''
+            heading_id = ''.join(ch for ch in unquote(anchor).lower() if ch.isalnum() or ch in ' _-').replace(' ', '-')
+            suffix = '#' + quote(heading_id, safe='-') if sep else ''
             return '../' + other['slug'] + '/' + suffix
         if target.suffix.lower() not in ASSETS:
             raise PublishError(f'暂不支持发布这种附件：{target.suffix}')
@@ -514,6 +517,9 @@ def main():
         elif args.command == 'publish': result = publish(c, args.snapshot)
         elif args.command == 'status': result = status(c)
         elif args.command == 'retry':
+            pending = read_json(c['work'] / 'published.json').get('commit')
+            if not pending or run(['git', 'rev-parse', 'HEAD'], c['root']) != pending:
+                raise PublishError('没有与当前预览对应的待推送版本，请重新预览并发布。')
             run(['git', 'push', 'origin', 'main'], c['root'])
             result = dict(ok=True, message='已重试推送，请查看发布状态。')
         else:

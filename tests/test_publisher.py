@@ -132,6 +132,10 @@ class PublishingBoundaryTests(unittest.TestCase):
         sid, _ = self.snapshot(draft=True)
         with self.assertRaisesRegex(p.PublishError, 'draft'): p.validate_snapshot(self.c, sid)
 
+    def test_string_draft_is_not_treated_as_publishable(self):
+        self.note('a.md', '正文', 'draft: "true"')
+        with self.assertRaisesRegex(p.PublishError, '不要给它加引号'): self.export(['a.md'])
+
     def test_changed_site_requires_new_preview(self):
         sid, _ = self.snapshot()
         (self.root / 'hugo.yaml').write_text('changed')
