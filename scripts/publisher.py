@@ -8,6 +8,7 @@ import datetime as dt
 import fcntl
 import hashlib
 import http.server
+import io
 import json
 import os
 from pathlib import Path
@@ -19,12 +20,17 @@ import sys
 import time
 from urllib.parse import quote, unquote, urlsplit
 import uuid
+import warnings
 from zoneinfo import ZoneInfo
 
 import yaml
+from PIL import Image, ImageCms, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif', '.svg', '.pdf', '.mp4', '.mp3', '.wav', '.ogg'}
+RASTER_IMAGES = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif'}
+IMAGE_MAX_EDGE = 2000
+IMAGE_QUALITY = 85
 SECRET = re.compile(r'(?:\bsk-(?:proj-|or-v1-)?[A-Za-z0-9_-]{24,}|\bgh[pousr]_[A-Za-z0-9]{24,}|\bAKIA[A-Z0-9]{16}\b|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)')
 
 
@@ -34,6 +40,50 @@ class PublishError(Exception):
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def compress_image(data: bytes, suffix: str):
+    """Optimize an in-memory export; the source file is never opened for writing."""
+    stats = dict(original_bytes=len(data), exported_bytes=len(data), optimized=False,
+                 resized=False, animated=False, reason='already_small')
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter('error', Image.DecompressionBombWarning)
+            with Image.open(io.BytesIO(data)) as original:
+                if getattr(original, 'is_animated', False):
+                    stats.update(animated=True, reason='animation')
+                    return data, suffix, stats
+                if original.mode not in {'1', 'L', 'LA', 'P', 'RGB', 'RGBA', 'CMYK'}:
+                    stats['reason'] = 'special_mode'
+                    return data, suffix, stats
+                # Already compressed formats are left alone unless resizing is useful.
+                if original.format in {'WEBP', 'AVIF'} and max(original.size) <= IMAGE_MAX_EDGE:
+                    return data, suffix, stats
+                lossless = original.format in {'PNG', 'GIF'}
+                img = ImageOps.exif_transpose(original)
+                original_size = img.size
+                icc = img.info.get('icc_profile', b'')
+                if img.mode == 'CMYK' and icc:
+                    srgb = ImageCms.createProfile('sRGB')
+                    img = ImageCms.profileToProfile(img, ImageCms.ImageCmsProfile(io.BytesIO(icc)), srgb, outputMode='RGB')
+                    icc = ImageCms.ImageCmsProfile(srgb).tobytes()
+                else:
+                    alpha = 'A' in img.getbands() or 'transparency' in img.info
+                    img = img.convert('RGBA' if alpha else 'RGB')
+                img.thumbnail((IMAGE_MAX_EDGE, IMAGE_MAX_EDGE), Image.Resampling.LANCZOS)
+                out = io.BytesIO()
+                img.save(out, format='WEBP', quality=IMAGE_QUALITY, method=6,
+                         lossless=lossless, icc_profile=icc)
+                candidate = out.getvalue()
+                # Avoid both file-size inflation and pointless lossy re-encoding.
+                if len(candidate) < len(data):
+                    stats.update(exported_bytes=len(candidate), optimized=True,
+                                 resized=img.size != original_size, reason='optimized')
+                    return candidate, '.webp', stats
+                return data, suffix, stats
+    except (OSError, ValueError, SyntaxError, Image.DecompressionBombError,
+            Image.DecompressionBombWarning, ImageCms.PyCMSError) as e:
+        raise PublishError('无法读取或压缩这张图片，请确认文件完整并能正常打开。') from e
 
 
 def read_json(path: Path, default=None):
@@ -152,6 +202,7 @@ class Exporter:
         self.c, self.target = c, target
         self.previous = previous or {}
         self.posts, self.hashes, self.assets, self.warnings = {}, {}, {}, []
+        self.asset_paths, self.images = {}, {}
         self.files = None
         used = {v['slug']: k for k, v in self.previous.items()}
         for rel in entries:
@@ -231,14 +282,39 @@ class Exporter:
             return '../' + other['slug'] + '/' + suffix
         if target.suffix.lower() not in ASSETS:
             raise PublishError(f'暂不支持发布这种附件：{target.suffix}')
-        h = digest(target)
-        self.hashes[target_rel] = h
-        name = h[:16] + target.suffix.lower()
         folder = self.target / 'posts' / self.posts[rel]['slug']
         (folder / 'assets').mkdir(parents=True, exist_ok=True)
-        shutil.copy2(target, folder / 'assets' / name)
-        self.assets[target_rel] = name
+        if target_rel not in self.assets:
+            data = target.read_bytes()
+            self.hashes[target_rel] = hashlib.sha256(data).hexdigest()
+            suffix = target.suffix.lower()
+            if suffix in RASTER_IMAGES:
+                try:
+                    data, suffix, stats = compress_image(data, suffix)
+                except PublishError as e:
+                    raise PublishError(f'{target.name}：{e}') from e
+                self.images[target_rel] = stats
+                if stats['reason'] == 'special_mode':
+                    self.warnings.append(f'“{target.name}”使用特殊色彩模式，已保留原格式。')
+            name = hashlib.sha256(data).hexdigest()[:16] + suffix
+            exported = folder / 'assets' / name
+            exported.write_bytes(data)
+            self.assets[target_rel] = name
+            self.asset_paths[target_rel] = exported
+        else:
+            name = self.assets[target_rel]
+            exported = folder / 'assets' / name
+            if exported != self.asset_paths[target_rel]:
+                shutil.copyfile(self.asset_paths[target_rel], exported)
         return 'assets/' + name + ('#' + anchor if sep else '')
+
+    def image_summary(self):
+        images = list(self.images.values())
+        original = sum(i['original_bytes'] for i in images)
+        exported = sum(i['exported_bytes'] for i in images)
+        return dict(count=len(images), optimized=sum(i['optimized'] for i in images),
+                    resized=sum(i['resized'] for i in images), animated=sum(i['animated'] for i in images),
+                    original_bytes=original, exported_bytes=exported, saved_bytes=original - exported)
 
     def rewrite(self, body, rel):
         text, restore = mask_code(body)
@@ -383,13 +459,13 @@ def preview(c, entries, serve=True):
                 raise PublishError('Hugo 没有生成这篇文章，请检查日期是否晚于今天。')
         manifest = dict(id=sid, posts=posts, source_hashes=exporter.hashes,
                         content_hash=tree_hash(content), site_hash=site_hash(c),
-                        warnings=exporter.warnings, attachments=len(exporter.assets))
+                        warnings=exporter.warnings, attachments=len(exporter.assets), images=exporter.image_summary())
         write_json(folder / 'manifest.json', manifest)
     except Exception:
         if serve: stop_server(c)
         raise
     return dict(ok=True, snapshot=sid, url=f'http://127.0.0.1:{port}/', posts=posts,
-                attachments=len(exporter.assets), warnings=exporter.warnings)
+                attachments=len(exporter.assets), warnings=exporter.warnings, images=exporter.image_summary())
 
 
 def start_server(c, directory, sid):

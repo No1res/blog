@@ -6,6 +6,12 @@ const { shell } = require('electron');
 
 const defaults = { siteDir: '', pythonPath: '', selectedNotes: [], excludedFolders: ['敏感信息'] };
 
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+}
+
 class NotePicker extends SuggestModal {
   constructor(app, plugin, done) { super(app); this.plugin = plugin; this.done = done; this.setPlaceholder('搜索要加入发布列表的文章…'); }
   getSuggestions(query) {
@@ -54,6 +60,7 @@ class PublisherModal extends Modal {
     const el = this.contentEl; el.empty();
     el.createEl('p', { text: '选定文章 → 查看预览 → 发布此预览', cls: 'hugo-lead' });
     el.createEl('p', { text: '只有列表中的文章和它们引用的附件会导出。移出列表只停止更新，不会删除已发布文章。', cls: 'hugo-muted' });
+    el.createEl('p', { text: '图片在生成预览时自动压缩，Obsidian 原图保持不变。', cls: 'hugo-muted' });
     const list = el.createDiv('hugo-notes');
     const notes = this.plugin.settings.selectedNotes;
     if (!notes.length) list.createEl('p', { text: '先添加一篇想与别人分享的文章。', cls: 'hugo-empty' });
@@ -79,6 +86,12 @@ class PublisherModal extends Modal {
     if (this.snapshot) {
       const box = el.createDiv('hugo-preview-summary');
       box.createEl('strong', { text: `已预览 ${this.snapshot.posts.length} 篇文章 · ${this.snapshot.attachments} 个附件` });
+      const images = this.snapshot.images;
+      if (images?.count) {
+        const saved = images.original_bytes ? Math.floor(images.saved_bytes / images.original_bytes * 100) : 0;
+        box.createEl('p', { text: `图片 ${images.count} 张，已压缩 ${images.optimized} 张：${formatBytes(images.original_bytes)} → ${formatBytes(images.exported_bytes)}（节省 ${saved}%）` });
+        if (images.animated) box.createEl('p', { text: `${images.animated} 张动图保持原样。`, cls: 'hugo-muted' });
+      }
       this.snapshot.posts.forEach(p => {
         const a = box.createEl('a', { text: p.title, href: this.snapshot.url + p.url });
         a.addEventListener('click', e => { e.preventDefault(); shell.openExternal(a.href); });

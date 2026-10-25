@@ -3,6 +3,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from PIL import Image
 
 spec = importlib.util.spec_from_file_location('publisher', Path(__file__).parents[1] / 'scripts/publisher.py')
 p = importlib.util.module_from_spec(spec)
@@ -44,7 +45,7 @@ class PublishingBoundaryTests(unittest.TestCase):
         self.assertEqual(len(list(self.target.rglob('*.md'))), 1)
 
     def test_images_vault_absolute_and_code_stays_literal(self):
-        img = self.vault / 'images/一 张图.png'; img.parent.mkdir(); img.write_bytes(b'image')
+        img = self.vault / 'images/一 张图.png'; img.parent.mkdir(); Image.new('RGB', (20, 20), 'blue').save(img)
         self.note('a.md', '![图](images/%E4%B8%80%20%E5%BC%A0%E5%9B%BE.png)\n\n`[[Not a link]]`\n\n```md\n![[not-real.png]]\n```')
         ex, _, text = self.export(['a.md'])
         self.assertIn('](assets/', text)
@@ -94,7 +95,7 @@ class PublishingBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(p.PublishError, '密钥'): self.export(['a.md'])
 
     def test_reference_links_and_footnotes(self):
-        (self.vault / 'photo.png').write_bytes(b'image')
+        Image.new('RGB', (20, 20), 'blue').save(self.vault / 'photo.png')
         self.note('a.md', '![图片][image]\n\n[image]: photo.png\n\n一句话[^1]\n\n[^1]: 注释内容')
         _, _, text = self.export(['a.md'])
         self.assertIn('[image]: assets/', text)
