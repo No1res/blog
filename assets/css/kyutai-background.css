@@ -1,38 +1,6 @@
-/* Article-only reading design. Outer rings follow the supplied CD reference.
-   Official release: https://daichi-miura.jp/discography/detail/28/ */
-@font-face {
-  font-family: "Kyutai Reading Serif";
-  src: url("{{ .Regular }}") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Kyutai Reading Serif";
-  src: url("{{ .SemiBold }}") format("woff2");
-  font-style: normal;
-  font-weight: 600 900;
-  font-display: swap;
-}
-
-body {
-  --kyutai-serif: "Kyutai Reading Serif", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Hiragino Mincho ProN", "Yu Mincho", SimSun, serif;
-  --kyutai-paper: #f8f5ee;
-  --kyutai-edge: #dcded3;
-  --kyutai-quote: #eeefe6;
-  --primary: #343931;
-  --content: #383a33;
-  --secondary: #686b60;
-  --border: #dcded3;
-  --code-bg: #efeee5;
-  --entry: #f8f5ee;
-  position: relative;
-  isolation: isolate;
-  font-family: var(--kyutai-serif);
-  background: #f3f4f0;
-}
-
+/* Loaded only on the Kyutai essay. The shared paper design has no rings.
+   CD reference: https://daichi-miura.jp/discography/detail/28/ */
+body { position: relative; isolation: isolate; }
 body::before {
   content: "";
   position: fixed;
@@ -45,98 +13,10 @@ body::before {
   background-position: center -100px, center -34px;
   opacity: .72;
 }
-
-body > .header,
-body > .footer,
-.main {
-  background-color: var(--kyutai-paper);
-  background-image: url("{{ .Grain }}");
-  background-size: 180px 180px;
-}
-
-.main {
-  max-width: calc(var(--main-width) + 72px);
-  margin: 28px auto;
-  padding: 36px;
-  border: 1px solid var(--kyutai-edge);
-  border-radius: 3px;
-  box-shadow: 0 8px 32px rgba(47, 63, 55, .055);
-}
-
-.logo a { font-weight: 600; letter-spacing: .025em; }
-.post-title {
-  font-size: 38px;
-  font-weight: 600;
-  line-height: 1.55;
-  letter-spacing: .015em;
-  text-wrap: balance;
-}
-.post-description { font-size: 17px; line-height: 1.95; }
-.post-meta { margin-top: 16px; font-size: 13px; }
-.post-content { font-size: 18px; line-height: 2.05; letter-spacing: .015em; }
-.post-content h2 { margin-top: 2.4em; font-size: 29px; }
-.post-content h3 { margin-top: 2em; font-size: 23px; }
-.post-content h2,
-.post-content h3 { font-weight: 600; line-height: 1.65; letter-spacing: .025em; }
-.post-content strong { font-weight: 600; }
-.post-content blockquote { border-inline-start-color: #9ca78f; }
-details.toc { font-size: 15px; background: var(--code-bg); border-radius: 3px; }
-
-.post-content .lyric-quote {
-  background-color: var(--kyutai-quote);
-  background-image: url("{{ .Grain }}");
-  background-size: 180px 180px;
-  border-color: var(--kyutai-edge);
-  border-left-color: #8a9c81;
-}
-.lyric-original,
-.lyric-translation { font-family: var(--kyutai-serif); line-height: 2; }
-.post-content .lyric-quote-title { font-weight: 600; color: #53634c; }
-.post-content .lyric-label { font-family: var(--kyutai-serif); letter-spacing: .08em; }
-
-[data-theme="dark"] body {
-  --kyutai-paper: #262922;
-  --kyutai-edge: #42493c;
-  --kyutai-quote: #2d342b;
-  --primary: #e6e3d8;
-  --content: #d6d5c9;
-  --secondary: #adb2a3;
-  --border: #42493c;
-  --code-bg: #2e332b;
-  --entry: #2e332b;
-  background: #1b2420;
-}
 [data-theme="dark"] body::before { opacity: .33; }
-[data-theme="dark"] .post-content .lyric-quote {
-  background-color: var(--kyutai-quote);
-  background-image: url("{{ .Grain }}");
-  border-color: var(--kyutai-edge);
-  border-left-color: #819575;
-}
-[data-theme="dark"] .post-content .lyric-quote-title { color: #b6c6a9; }
-
-@media (max-width: 860px) {
-  .main { margin: 22px 18px; padding: 28px; }
-}
-
 @media (max-width: 600px) {
   body::before { background-size: 260px 780px, 204px 204px; }
-  .main { margin: 18px 12px; padding: 22px 18px; }
-  .post-title { font-size: 29px; line-height: 1.6; }
-  .post-description { font-size: 16px; }
-  .post-content { font-size: 17px; line-height: 2; }
-  .post-content h2 { font-size: 24px; }
-  .post-content h3 { font-size: 21px; }
 }
-
 @media print {
-  body,
-  [data-theme="dark"] body { --primary: #000; --content: #000; --secondary: #333; background: #fff; }
   body::before { display: none; }
-  body > .header,
-  body > .footer,
-  .main,
-  .post-content .lyric-quote,
-  [data-theme="dark"] .post-content .lyric-quote { background: #fff; }
-  .main { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; }
 }

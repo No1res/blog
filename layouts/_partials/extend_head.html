@@ -1,13 +1,17 @@
+{{- $grain := resources.Get "images/paper-grain.svg" | minify | fingerprint -}}
+{{- $regular := resources.Get "fonts/reading/reading-serif-regular.woff2" | fingerprint -}}
+{{- $semibold := resources.Get "fonts/reading/reading-serif-semibold.woff2" | fingerprint -}}
+{{- $license := resources.Get "fonts/reading/OFL.txt" -}}
+{{- $paperContext := dict "Grain" $grain.RelPermalink "Regular" $regular.RelPermalink "SemiBold" $semibold.RelPermalink -}}
+<link rel="preload" href="{{ $regular.RelPermalink }}" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="license" href="{{ $license.RelPermalink }}" title="Reading font — SIL Open Font License 1.1">
+{{- $paperStyle := resources.Get "css/paper-reading.css" | resources.ExecuteAsTemplate "assets/css/paper-reading.css" $paperContext | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $paperStyle.RelPermalink }}" integrity="{{ $paperStyle.Data.Integrity }}" crossorigin="anonymous">
+
 {{- if and .IsPage (eq .Params.slug "daichi-miura-kyutai-story") -}}
   {{- $pattern := resources.Get "images/kyutai-letter-rings.svg" | fingerprint -}}
   {{- $arcs := resources.Get "images/kyutai-arcs.svg" | fingerprint -}}
-  {{- $grain := resources.Get "images/kyutai-paper-grain.svg" | minify | fingerprint -}}
-  {{- $regular := resources.Get "fonts/kyutai/kyutai-serif-regular.woff2" | fingerprint -}}
-  {{- $semibold := resources.Get "fonts/kyutai/kyutai-serif-semibold.woff2" | fingerprint -}}
-  {{- $license := resources.Get "fonts/kyutai/OFL.txt" -}}
-  {{- $context := dict "Pattern" $pattern.RelPermalink "Arcs" $arcs.RelPermalink "Grain" $grain.RelPermalink "Regular" $regular.RelPermalink "SemiBold" $semibold.RelPermalink -}}
-  <link rel="preload" href="{{ $regular.RelPermalink }}" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="license" href="{{ $license.RelPermalink }}" title="Reading font — SIL Open Font License 1.1">
-  {{- $style := resources.Get "css/kyutai-background.css" | resources.ExecuteAsTemplate "assets/css/kyutai-background.css" $context | minify | fingerprint -}}
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
+  {{- $ringContext := dict "Pattern" $pattern.RelPermalink "Arcs" $arcs.RelPermalink -}}
+  {{- $ringStyle := resources.Get "css/kyutai-background.css" | resources.ExecuteAsTemplate "assets/css/kyutai-background.css" $ringContext | minify | fingerprint -}}
+  <link rel="stylesheet" href="{{ $ringStyle.RelPermalink }}" integrity="{{ $ringStyle.Data.Integrity }}" crossorigin="anonymous">
 {{- end -}}

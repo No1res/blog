@@ -1,0 +1,160 @@
+/* Shared, opaque paper surfaces and self-hosted serif typography. */
+@font-face {
+  font-family: "No1res Reading Serif";
+  src: url("{{ .Regular }}") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "No1res Reading Serif";
+  src: url("{{ .SemiBold }}") format("woff2");
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: swap;
+}
+
+body {
+  --reading-serif: "No1res Reading Serif", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Hiragino Mincho ProN", "Yu Mincho", SimSun, serif;
+  --paper: #f8f5ee;
+  --paper-edge: #dcded3;
+  --paper-quote: #eeefe6;
+  --page-background: #f3f4f0;
+  --primary: #343931;
+  --content: #383a33;
+  --secondary: #686b60;
+  --tertiary: #e1e5d9;
+  --border: var(--paper-edge);
+  --theme: var(--paper);
+  --code-bg: #efeee5;
+  --entry: #f6f3eb;
+  --radius: 3px;
+  font-family: var(--reading-serif);
+}
+body,
+body.list,
+[data-theme="dark"] body.list { background: var(--page-background); }
+
+body > .header,
+body > .footer,
+.main {
+  background-color: var(--paper);
+  background-image: url("{{ .Grain }}");
+  background-size: 180px 180px;
+}
+.main {
+  max-width: calc(var(--main-width) + 72px);
+  margin: 28px auto;
+  padding: 36px;
+  border: 1px solid var(--paper-edge);
+  border-radius: 3px;
+  box-shadow: 0 8px 32px rgba(47, 63, 55, .055);
+}
+
+.logo a { font-weight: 600; letter-spacing: .025em; }
+.post-title,
+.page-header h1 {
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: .015em;
+  text-wrap: balance;
+}
+.post-description { font-size: 17px; line-height: 1.95; }
+.post-meta { margin-top: 16px; font-size: 13px; }
+.post-content { font-size: 18px; line-height: 2.05; letter-spacing: .015em; }
+.post-content h2 { margin-top: 2.4em; font-size: 29px; }
+.post-content h3 { margin-top: 2em; font-size: 23px; }
+.post-content h2,
+.post-content h3 { font-weight: 600; line-height: 1.65; letter-spacing: .025em; }
+.post-content strong { font-weight: 600; }
+.post-content blockquote { border-inline-start-color: #9ca78f; }
+details.toc { font-size: 15px; background: var(--code-bg); border-radius: 3px; }
+
+.home-info .entry-header h1 { font-weight: 600; line-height: 1.6; letter-spacing: .015em; }
+.home-info .entry-content { font-size: 17px; line-height: 1.95; }
+.entry-header h2 { font-size: 24px; font-weight: 600; line-height: 1.65; }
+.post-entry,
+.searchResults li {
+  background-color: var(--entry);
+  background-image: url("{{ .Grain }}");
+  background-size: 180px 180px;
+}
+.post-entry .entry-content { font-size: 15px; line-height: 1.9; }
+.archive-entry-title { line-height: 1.85; }
+.archive-year-header,
+.archive-month-header { font-weight: 600; }
+.terms-tags a { line-height: 1.8; }
+.searchbox input {
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.8;
+  background: var(--paper);
+  border-width: 1px;
+  padding: 10px 14px;
+}
+.searchbox input:focus-visible { outline: 2px solid var(--secondary); outline-offset: 3px; }
+.searchResults li { line-height: 1.85; }
+
+.post-content .lyric-quote {
+  background-color: var(--paper-quote);
+  background-image: url("{{ .Grain }}");
+  background-size: 180px 180px;
+  border-color: var(--paper-edge);
+  border-left-color: #8a9c81;
+}
+.lyric-original,
+.lyric-translation { font-family: var(--reading-serif); line-height: 2; }
+.post-content .lyric-quote-title { font-weight: 600; color: #53634c; }
+.post-content .lyric-label { font-family: var(--reading-serif); letter-spacing: .08em; }
+
+[data-theme="dark"] body {
+  --paper: #262922;
+  --paper-edge: #42493c;
+  --paper-quote: #2d342b;
+  --page-background: #1b2420;
+  --primary: #e6e3d8;
+  --content: #d6d5c9;
+  --secondary: #adb2a3;
+  --tertiary: #3e493a;
+  --code-bg: #2e332b;
+  --entry: #2e332b;
+}
+[data-theme="dark"] .post-content .lyric-quote {
+  background-color: var(--paper-quote);
+  background-image: url("{{ .Grain }}");
+  border-color: var(--paper-edge);
+  border-left-color: #819575;
+}
+[data-theme="dark"] .post-content .lyric-quote-title { color: #b6c6a9; }
+
+@media (max-width: 860px) {
+  .main { margin: 22px 18px; padding: 28px; }
+}
+@media (max-width: 600px) {
+  .main { margin: 18px 12px; padding: 22px 18px; }
+  .post-title,
+  .page-header h1 { font-size: 29px; line-height: 1.6; }
+  .post-description { font-size: 16px; }
+  .post-content { font-size: 17px; line-height: 2; }
+  .post-content h2 { font-size: 24px; }
+  .post-content h3 { font-size: 21px; }
+  .home-info .entry-header h1 { font-size: 28px; }
+  .entry-header h2 { font-size: 22px; }
+}
+
+@media print {
+  body,
+  [data-theme="dark"] body {
+    --primary: #000; --content: #000; --secondary: #333; --page-background: #fff;
+  }
+  body > .header,
+  body > .footer,
+  .main,
+  .post-entry,
+  .searchResults li,
+  .post-content .lyric-quote,
+  [data-theme="dark"] .post-content .lyric-quote { background: #fff; }
+  .main { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; }
+}

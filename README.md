@@ -79,8 +79,10 @@ draft: true
 
 - `hugo.yaml`：站名、简介、导航、RSS、交流入口。
 - `content/about.md`：关于页面。
-- `assets/css/extended/reading.css`：阅读排版。
-- `assets/css/kyutai-background.css`：《球体》专用的宋体、纸面纹理与外围环形纹样；字体维护说明在 `assets/fonts/kyutai/README.md`，日常发布无需额外步骤。
+- `assets/css/extended/reading.css`：正文图片、图注与交流区的基础排版。
+- `assets/css/paper-reading.css`：全站共用的宋体、暖白纸面和细微纹理；首页、文章、归档、标签和搜索页自动沿用。
+- `assets/css/kyutai-background.css`：只在《球体》文章加载的外围环形纹样。
+- `assets/fonts/reading/README.md`：字体来源与可选维护说明；日常 Obsidian 预览、发布无需额外步骤。
 - `themes/PaperMod/`：固定版本的上游主题，保留 MIT 许可；版本记录在 `THEME_VERSION.txt`。
 - `.github/workflows/deploy.yml`：推送 main 后自动部署 GitHub Pages。
 

@@ -1,5 +1,4 @@
 :root { --main-width: 740px; --nav-width: 1040px; --radius: 10px; }
-body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
 .home-info { min-height: 230px; }
 .home-info .entry-header h1 { font-size: 32px; letter-spacing: -.03em; }
 .home-info .entry-content { font-size: 17px; line-height: 1.95; max-width: 560px; }
