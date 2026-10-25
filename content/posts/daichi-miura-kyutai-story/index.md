@@ -8,8 +8,13 @@ tags:
 - 三浦大知
 description: 沿着《球体》（2018）的 17 首曲目依次展开，反复出现的意象、人物关系与时间线索，逐渐勾勒出一个关于失去、寻找与轮回的故事。
 draft: false
-lastmod: '2026-10-25T15:10:16+08:00'
+lastmod: '2026-10-25T15:19:42+08:00'
+summary: 沿着《球体》（2018）的 17 首曲目依次展开，反复出现的意象、人物关系与时间线索，逐渐勾勒出一个关于失去、寻找与轮回的故事。
 ---
+
+![《球体》官方视觉：白底黑色的连续弧线与专辑标题](assets/db5414b32b7fe660.webp)
+
+*《球体》官方视觉，© 2018 avex。图片来源：[三浦大知《球体》特设网站](https://avex.jp/daichi/sphere-special/)。*
 
 一种可能的读法是：一个失去挚爱的人，在记忆、现实、生死与轮回之间不断寻找对方，试图重新获得两人共同存在的世界，却始终无法摆脱失去的命运。
 
@@ -209,6 +214,10 @@ Nao'ymt 曾在 [Ableton 的访谈](https://www.ableton.com/ja/blog/naoymt/)中�
 
 「綴化」是一个真实存在的植物学现象，也称「带化」。植物的生长点异常地向线状扩展，可能形成带状等形态。它并不意味着植物停止生长，而是意味着植物以不同于通常状态的方式继续生长。相关解释可见[日本植物生理学会的植物问答](https://jspp.org/hiroba/q_and_a/detail.html?id=1719&key=1719&target=number)。
 
+![发生带化的飞蓬花序，花盘呈扁平弯曲形态](assets/394fefa25a49e2ff.webp)
+
+*带化现象的真实例子（Erigeron speciosus）。摄影：James N. Perdue（Perduejn），[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fasciated_Showy_Daisy_July_3_2016.jpg)，[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。网页图片已压缩。*
+
 这个标题与歌曲中的情感变化形成了意味深长的联系。
 
 主人公再次回忆起与「君」相处的情景。他幻想用她的头发制成画笔，画出通往天空的梯子；他记得两个人在黄昏中散步，经过废弃的水槽；他感觉只有她触碰过的地方，才能重新给失去色彩的世界带来颜色。
@@ -245,6 +254,10 @@ Nao'ymt 曾在 [Ableton 的访谈](https://www.ableton.com/ja/blog/naoymt/)中�
 后来，她把他推向海边，两个人嬉闹，她笑着说这次算是平手。
 
 那是一个非常普通的夏日下午。有海风，有汽笛，有沙滩，还有她的笑容。
+
+![海浪涌上金色沙滩，留下白色泡沫](assets/ddc018c3e5a35498.webp)
+
+*海边意象配图，呼应《クレーター》中那个普通的夏日下午。摄影：Dan Gold，[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Waves-crashing-on-beach_925x.jpg)，[CC0](https://creativecommons.org/publicdomain/zero/1.0/)。*
 
 为什么要在经历了前面那么复杂的生死、记忆与生命意象之后，突然回到如此简单的日常？
 
