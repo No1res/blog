@@ -80,6 +80,7 @@ draft: true
 - `hugo.yaml`：站名、简介、导航、RSS、交流入口。
 - `content/about.md`：关于页面。
 - `assets/css/extended/reading.css`：阅读排版。
+- `assets/css/kyutai-background.css`：《球体》专用的宋体、纸面纹理与外围环形纹样；字体维护说明在 `assets/fonts/kyutai/README.md`，日常发布无需额外步骤。
 - `themes/PaperMod/`：固定版本的上游主题，保留 MIT 许可；版本记录在 `THEME_VERSION.txt`。
 - `.github/workflows/deploy.yml`：推送 main 后自动部署 GitHub Pages。
 
