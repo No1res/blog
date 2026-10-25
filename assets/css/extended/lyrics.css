@@ -1,0 +1,60 @@
+.post-content .lyric-quote {
+  margin: 1.7rem 0;
+  padding: 20px 24px;
+  border: 1px solid rgba(94, 121, 109, .2);
+  border-left: 3px solid #879e92;
+  border-radius: 3px;
+  background: rgba(244, 247, 242, .9);
+}
+.post-content .lyric-quote-title {
+  margin: 0 0 16px;
+  color: #53665b;
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: .03em;
+}
+.lyric-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.lyric-original,
+.lyric-translation {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 17px;
+  line-height: 1.9;
+}
+.lyric-original {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", serif;
+  color: var(--primary);
+}
+.lyric-translation {
+  border-left: 1px solid rgba(94, 121, 109, .18);
+  padding-left: 24px;
+  font-family: "Songti SC", "Noto Serif CJK SC", SimSun, serif;
+  color: var(--content);
+}
+.post-content .lyric-label {
+  margin: 0 0 8px;
+  color: var(--secondary);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  font-size: 11px;
+  letter-spacing: .07em;
+}
+.lyric-columns p:last-child { margin-bottom: 0; }
+[data-theme="dark"] .post-content .lyric-quote {
+  background: rgba(37, 45, 40, .95);
+  border-color: #4c6053;
+}
+[data-theme="dark"] .post-content .lyric-quote-title { color: #b2c7b9; }
+@media (max-width: 600px) {
+  .post-content .lyric-quote { padding: 16px 18px; }
+  .lyric-columns { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .lyric-translation {
+    padding-left: 0;
+    padding-top: 14px;
+    border-left: 0;
+    border-top: 1px solid rgba(94, 121, 109, .18);
+  }
+}

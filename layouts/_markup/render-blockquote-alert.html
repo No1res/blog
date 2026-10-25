@@ -1,0 +1,26 @@
+{{- if eq .AlertType "lyrics" -}}
+  {{- $paragraphs := findRE `(?s)<p>.*?</p>` .Text -}}
+  {{- if ne (len $paragraphs) 4 -}}
+    {{- errorf "歌词对照需要依次包含：原文标签、原文段落、中文意译标签、中文段落。段落内换行请保留两个行末空格。位置：%s" .Position -}}
+  {{- else -}}
+    <figure class="lyric-quote" aria-label="{{ .AlertTitle | plainify }}">
+      <figcaption class="lyric-quote-title">{{ .AlertTitle }}</figcaption>
+      <div class="lyric-columns">
+        <div class="lyric-original" lang="ja">
+          <p class="lyric-label" lang="zh-Hans">日文原文</p>
+          {{- /* These fragments have already been rendered and escaped by Goldmark. */ -}}
+          {{ index $paragraphs 1 | safeHTML }}
+        </div>
+        <div class="lyric-translation" lang="zh-Hans">
+          <p class="lyric-label">中文意译</p>
+          {{ index $paragraphs 3 | safeHTML }}
+        </div>
+      </div>
+    </figure>
+  {{- end -}}
+{{- else -}}
+<blockquote>
+  <p>[!{{ .AlertType | upper }}]{{ .AlertSign }} {{ .AlertTitle }}</p>
+  {{ .Text }}
+</blockquote>
+{{- end -}}
