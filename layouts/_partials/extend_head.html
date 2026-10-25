@@ -1,0 +1,7 @@
+{{- if and .IsPage (eq .Params.slug "daichi-miura-kyutai-story") -}}
+  {{- $pattern := resources.Get "images/kyutai-letter-rings.svg" | fingerprint -}}
+  {{- $arcs := resources.Get "images/kyutai-arcs.svg" | fingerprint -}}
+  {{- $context := dict "Pattern" $pattern.RelPermalink "Arcs" $arcs.RelPermalink -}}
+  {{- $style := resources.Get "css/kyutai-background.css" | resources.ExecuteAsTemplate "assets/css/kyutai-background.css" $context | minify | fingerprint -}}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
+{{- end -}}

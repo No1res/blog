@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <title>Sphere, Daichi Miura and Nao’ymt in repeating letter rings</title>
+  <defs>
+    <path id="orbit" d="M 0,-67 A 67,67 0 1,1 0,67 A 67,67 0 1,1 0,-67"/>
+    <g id="ring">
+      <text fill="#829b91" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400">
+        <textPath href="#orbit" textLength="405" lengthAdjust="spacing">SPHERE&#160;&#160;DAICHI MIURA&#160;&#160;NAO’YMT</textPath>
+      </text>
+    </g>
+  </defs>
+  <use href="#ring" transform="translate(0 0) rotate(-24)"/>
+  <use href="#ring" transform="translate(240 0) rotate(-24)"/>
+  <use href="#ring" transform="translate(120 120) rotate(126)"/>
+  <use href="#ring" transform="translate(0 240) rotate(-24)"/>
+  <use href="#ring" transform="translate(240 240) rotate(-24)"/>
+</svg>

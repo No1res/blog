@@ -1,0 +1,65 @@
+/* Recreated from the CD packaging reference supplied by the author.
+   Official release: https://daichi-miura.jp/discography/detail/28/ */
+body {
+  --kyutai-paper: rgba(255, 255, 253, .94);
+  --kyutai-edge: rgba(98, 124, 112, .14);
+  position: relative;
+  isolation: isolate;
+  background: #f3f4f0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("{{ .Arcs }}"), url("{{ .Pattern }}");
+  background-repeat: repeat;
+  background-size: 360px 1080px, 240px 240px;
+  background-position: center -100px, center -34px;
+  opacity: .72;
+}
+
+body > .header,
+body > .footer {
+  background: var(--kyutai-paper);
+}
+
+.main {
+  max-width: calc(var(--main-width) + 72px);
+  margin: 28px auto;
+  padding: 36px;
+  background: var(--kyutai-paper);
+  border: 1px solid var(--kyutai-edge);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(47, 63, 55, .035);
+}
+
+[data-theme="dark"] body {
+  --kyutai-paper: rgba(29, 30, 32, .95);
+  --kyutai-edge: rgba(150, 175, 161, .15);
+  background: #1b2420;
+}
+
+[data-theme="dark"] body::before {
+  opacity: .33;
+}
+
+@media (max-width: 860px) {
+  .main { margin: 22px 18px; padding: 28px; }
+}
+
+@media (max-width: 600px) {
+  body::before {
+    background-size: 260px 780px, 204px 204px;
+  }
+  .main { margin: 18px 12px; padding: 22px 18px; }
+  .post-title { font-size: 30px; line-height: 1.45; }
+}
+
+@media print {
+  body { background: #fff; }
+  body::before { display: none; }
+  .main { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; background: none; }
+}
