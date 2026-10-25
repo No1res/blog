@@ -8,6 +8,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft
 .post-title { line-height: 1.4; letter-spacing: -.025em; }
 .post-entry { padding: 25px 28px; }
 .post-entry .entry-content { line-height: 1.85; }
-.post-footer .conversation { border-top: 1px solid var(--border); padding-top: 20px; line-height: 1.8; }
+.conversation { border-top: 1px solid var(--border); margin-top: 32px; padding-top: 20px; line-height: 1.8; font-size: 15px; color: var(--secondary); }
 .conversation a { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 600px) { .post-content { font-size: 16px; } .post-entry { padding: 20px; } }

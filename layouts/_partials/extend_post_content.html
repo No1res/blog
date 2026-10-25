@@ -1,0 +1,5 @@
+{{ if and .IsPage (eq .Section "posts") }}
+<aside class="conversation">
+  <p>你有相似的经历，或不同的看法吗？欢迎到 <a href="{{ site.Params.discussionURL }}">交流区</a> 分享，也可以在你看到这篇文章的地方直接回复我。</p>
+</aside>
+{{ end }}
